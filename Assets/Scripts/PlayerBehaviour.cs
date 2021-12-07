@@ -16,6 +16,9 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField]
     private float _WalkSpeed;
 
+    [SerializeField]
+    private float _LineLength;
+
     /// <summary>現在のステート</summary>
     private State _CurrentState = State.None;
     /// <summary>現在のステートを取得</summary>
@@ -48,7 +51,7 @@ public class PlayerBehaviour : MonoBehaviour
     /// <summary>
     /// ステートの変更をする
     /// </summary>
-    /// <returns>ステートが変更できたか</returns>
+    /// <param name="next">変更先</param>
     private void ChengeState(State next)
     {
         var prev = _CurrentState;
@@ -74,5 +77,19 @@ public class PlayerBehaviour : MonoBehaviour
         var velo = _Rigidbody2D.velocity;
         velo.x = _WalkSpeed;
         _Rigidbody2D.velocity = velo;
+    }
+
+    /// <summary>
+    /// 地面との接地判定
+    /// </summary>
+    /// <returns>接地しているか</returns>
+    private bool IsGrounded()
+    {
+        // 接地判定をするレイヤーを指定
+        var layer = Layer.LAYER_GROUND_INDEX;
+
+        var hitInfo = Physics.Raycast(this.transform.position, Vector2.down, _LineLength, layer);
+        if (!hitInfo) return false;
+        return true;
     }
 }
