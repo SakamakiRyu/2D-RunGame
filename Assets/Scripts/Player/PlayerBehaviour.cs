@@ -7,13 +7,6 @@ public class PlayerBehaviour : MonoBehaviour
     public enum State
     {
         None,
-        InGame,
-        Death
-    }
-
-    public enum InGameState
-    {
-        None,
         Run,
         Jump
     }
@@ -36,21 +29,62 @@ public class PlayerBehaviour : MonoBehaviour
     #region Private Field
     /// <summary>現在のステート</summary>
     private State _CurrentState = State.None;
-    /// <summary>現在のゲーム内のステート</summary>
-    private InGameState _CurrentInGameState = InGameState.None;
     #endregion
 
     #region Property
     /// <summary>現在のステートを取得</summary>
     public State GetCurrentState => _CurrentState;
-    /// <summary>現在のゲーム内ステートを取得</summary>
-    public InGameState GetInGameState => _CurrentInGameState;
+    /// <summary>現在の速度ベクトルを取得</summary>
+    public Vector3 GetVelocity => _Rigidbody2D.velocity;
     #endregion
+
+    #region Unity Function
+    private void Awake()
+    {
+        GameManager.Instance.GameStart += OnGameStart;
+    }
+
+    private void Start()
+    {
+    }
 
     private void Update()
     {
-        ChengeState(State.InGame);
         StateUpdate();
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("CheckPoint"))
+        {
+        }
+    }
+    #endregion
+
+    #region Public Function
+    #endregion
+
+    #region Private Function
+    /// <summary>
+    /// ステートの変更をする
+    /// </summary>
+    /// <param name="next">変更先のステート</param>
+    private void ChengeState(State next)
+    {
+        var prev = _CurrentState;
+
+        // ステートの変更時に行いたい処理
+        switch (next)
+        {
+            case State.None:
+                break;
+            case State.Run:
+                break;
+            case State.Jump:
+                break;
+        }
+
+        _CurrentState = next;
     }
 
     /// <summary>
@@ -62,46 +96,12 @@ public class PlayerBehaviour : MonoBehaviour
         {
             case State.None:
                 break;
-            case State.InGame:
-                Move();
+            case State.Run:
                 Jump();
                 break;
-            case State.Death:
+            case State.Jump:
                 break;
         }
-    }
-
-    /// <summary>
-    /// ステートの変更をする
-    /// </summary>
-    /// <param name="next">変更先のステート</param>
-    private void ChengeState(State next)
-    {
-        var prev = _CurrentState;
-
-        switch (next)
-        {
-            case State.None:
-                break;
-            case State.InGame:
-                break;
-            case State.Death:
-                break;
-        }
-
-        _CurrentState = next;
-    }
-
-    /// <summary>
-    /// 動く(オートラン)
-    /// </summary>
-    private void Move()
-    {
-        if (_Rigidbody2D == null) return;
-
-        var velo = _Rigidbody2D.velocity;
-        velo.x = _MoveSpeed;
-        _Rigidbody2D.velocity = velo;
     }
 
     /// <summary>
@@ -133,4 +133,15 @@ public class PlayerBehaviour : MonoBehaviour
         if (!hitInfo) return false;
         return true;
     }
+    #endregion
+
+    #region Callback Function
+    /// <summary>
+    /// ゲームが始まった時に呼ばれる
+    /// </summary>
+    private void OnGameStart()
+    {
+        ChengeState(State.Run);
+    }
+    #endregion
 }
