@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
+    #region Define
     /// <summary>ゲームのステート</summary>
     public enum GameState
     {
@@ -15,24 +16,32 @@ public class GameManager : Singleton<GameManager>
         /// <summary>ゲームリザルト</summary>
         Result
     }
+    #endregion
 
+    #region Serialize Field
     [SerializeField]
     private float _TimeToCountDown;
 
-    /// <summary>現在のゲームステート</summary>
     [SerializeField]
     private GameState _CurrentGameState = GameState.None;
+    #endregion
 
+    #region Private Field
     /// <summary>タイマー</summary>
     private float _Timer;
+    #endregion
 
+    #region Property
     /// <summary>現在のゲームステートを取得</summary>
     public GameState GetCurrentGameState => _CurrentGameState;
+    #endregion
 
+    #region Event
     /// <summary>ゲームがスタートした時に呼ばれる</summary>
     public Action GameStart;
     /// <summary>ゲームが終了した時に呼ばれる</summary>
     public Action GameEnd;
+    #endregion
 
     public override void Awake()
     {
@@ -42,18 +51,19 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
-        ChengeGameState(GameState.Title);
+        // ゲームステートが未設定だった場合は、Titleにする
+        if (_CurrentGameState == GameState.None) ChengeGameState(GameState.Title);
     }
 
     private void Update()
     {
-        StateUpdate();
+        UpdateState();
     }
 
     /// <summary>
     /// ステート毎に毎フレーム呼ばれる処理
     /// </summary>
-    private void StateUpdate()
+    private void UpdateState()
     {
         switch (_CurrentGameState)
         {
@@ -66,6 +76,11 @@ public class GameManager : Singleton<GameManager>
                 break;
 
             case GameState.InGame:
+                _Timer -= Time.deltaTime;
+                if (_Timer <= 0)
+                {
+                    GameStart?.Invoke();
+                }
                 break;
 
             case GameState.Result:

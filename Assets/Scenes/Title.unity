@@ -302,7 +302,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _TimeToCountDown: 2
-  _CurrentGameState: 0
+  _CurrentGameState: -1
 --- !u!4 &1087845156
 Transform:
   m_ObjectHideFlags: 0

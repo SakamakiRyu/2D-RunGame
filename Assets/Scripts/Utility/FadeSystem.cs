@@ -1,7 +1,10 @@
 using System.Collections;
 using UnityEngine;
 
-public class FadeSystem : Singleton<FadeSystem>
+/// <summary>
+/// Unity‚ÌƒV[ƒ“‘JˆÚ‚Ì‰‰o
+/// </summary>
+public class FadeSystem : MonoBehaviour
 {
     [SerializeField]
     private UnityEngine.UI.Image _FadeImage;
@@ -22,7 +25,6 @@ public class FadeSystem : Singleton<FadeSystem>
     {
         if (!_FadeImage)
         {
-            Log.Warning("Image ‚ğİ’è‚µ‚Ä‚­‚¾‚³‚¢");
             return;
         }
         StartCoroutine(DoFadeOut(time));
@@ -30,13 +32,11 @@ public class FadeSystem : Singleton<FadeSystem>
 
     private IEnumerator DoFadeOut(float time)
     {
-        Log.Info("Play FadeOut");
         while (_FadeImage.fillAmount < 1f)
         {
             _FadeImage.fillAmount += 1 / time * Time.deltaTime;
             yield return null;
         }
-        Log.Info("End FadeOut");
         yield return null;
     }
 
@@ -48,7 +48,6 @@ public class FadeSystem : Singleton<FadeSystem>
     {
         if (!_FadeImage)
         {
-            Log.Warning("Image ‚ğİ’è‚µ‚Ä‚­‚¾‚³‚¢");
             return;
         }
         StartCoroutine(DoFadeIn(time));
@@ -56,13 +55,11 @@ public class FadeSystem : Singleton<FadeSystem>
 
     private IEnumerator DoFadeIn(float time)
     {
-        Log.Info("Play FadeIn");
         while (_FadeImage.fillAmount > 0f)
         {
             _FadeImage.fillAmount -= 1 / time * Time.deltaTime;
             yield return null;
         }
-        Log.Info("End FadeIn");
         yield return null;
     }
 }
