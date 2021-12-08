@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// Playerクラス
+/// </summary>
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerBehaviour : MonoBehaviour
 {
@@ -8,7 +11,8 @@ public class PlayerBehaviour : MonoBehaviour
     {
         None,
         Run,
-        Jump
+        Jump,
+        Death
     }
     #endregion
 
@@ -42,6 +46,7 @@ public class PlayerBehaviour : MonoBehaviour
     private void Awake()
     {
         GameManager.Instance.GameStart += OnGameStart;
+        GameManager.Instance.GameEnd += OnGameEnd;
     }
 
     private void Start()
@@ -55,8 +60,9 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("CheckPoint"))
+        if (collision.CompareTag("Obstacle"))
         {
+            GameManager.Instance.GameEnd?.Invoke();
         }
     }
     #endregion
@@ -78,9 +84,14 @@ public class PlayerBehaviour : MonoBehaviour
         {
             case State.None:
                 break;
+
             case State.Run:
                 break;
+
             case State.Jump:
+                break;
+
+            case State.Death:
                 break;
         }
 
@@ -96,12 +107,30 @@ public class PlayerBehaviour : MonoBehaviour
         {
             case State.None:
                 break;
+
             case State.Run:
+                Move();
                 Jump();
                 break;
+
             case State.Jump:
                 break;
+
+            case State.Death:
+                break;
         }
+    }
+
+    /// <summary>
+    /// 走る
+    /// </summary>
+    private void Move()
+    {
+        if (!_Rigidbody2D) return;
+
+        var velo = _Rigidbody2D.velocity;
+        velo.x = _MoveSpeed;
+        _Rigidbody2D.velocity = velo;
     }
 
     /// <summary>
@@ -142,6 +171,14 @@ public class PlayerBehaviour : MonoBehaviour
     private void OnGameStart()
     {
         ChengeState(State.Run);
+    }
+
+    /// <summary>
+    /// ゲームが終了した(Playerが死んだ)時に呼ばれる
+    /// </summary>
+    private void OnGameEnd()
+    {
+        ChengeState(State.Death);
     }
     #endregion
 }
