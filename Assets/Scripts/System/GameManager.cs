@@ -51,7 +51,7 @@ public class GameManager : Singleton<GameManager>
 
     private void Start()
     {
-        // ゲームステートが未設定だった場合は、Titleにする
+        // ゲームステートが未設定(None)だった場合は、Titleにする
         if (_CurrentGameState == GameState.None) ChengeGameState(GameState.Title);
     }
 
@@ -96,6 +96,8 @@ public class GameManager : Singleton<GameManager>
     /// <param name="next">変更先</param>
     public void ChengeGameState(GameState next)
     {
+        Debug.Log((int)next);
+
         var prev = _CurrentGameState;
 
         // ステートの変更時にする処理
