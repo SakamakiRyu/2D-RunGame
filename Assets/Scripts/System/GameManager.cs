@@ -96,8 +96,6 @@ public class GameManager : Singleton<GameManager>
     /// <param name="next">変更先</param>
     public void ChengeGameState(GameState next)
     {
-        Debug.Log((int)next);
-
         var prev = _CurrentGameState;
 
         // ステートの変更時にする処理
@@ -119,6 +117,7 @@ public class GameManager : Singleton<GameManager>
 
         // シーンのロード
         SceneManager.LoadSceneAsync((int)next);
+
         // ステートの更新
         _CurrentGameState = next;
     }

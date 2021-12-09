@@ -10,8 +10,7 @@ public class PlayerBehaviour : MonoBehaviour
     public enum State
     {
         None,
-        Run,
-        Jump,
+        InGame,
         Death
     }
     #endregion
@@ -49,21 +48,9 @@ public class PlayerBehaviour : MonoBehaviour
         GameManager.Instance.GameEnd += OnGameEnd;
     }
 
-    private void Start()
-    {
-    }
-
     private void Update()
     {
         StateUpdate();
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Obstacle"))
-        {
-            GameManager.Instance.GameEnd?.Invoke();
-        }
     }
     #endregion
 
@@ -85,10 +72,7 @@ public class PlayerBehaviour : MonoBehaviour
             case State.None:
                 break;
 
-            case State.Run:
-                break;
-
-            case State.Jump:
+            case State.InGame:
                 break;
 
             case State.Death:
@@ -108,12 +92,9 @@ public class PlayerBehaviour : MonoBehaviour
             case State.None:
                 break;
 
-            case State.Run:
+            case State.InGame:
                 Move();
                 Jump();
-                break;
-
-            case State.Jump:
                 break;
 
             case State.Death:
@@ -170,7 +151,7 @@ public class PlayerBehaviour : MonoBehaviour
     /// </summary>
     private void OnGameStart()
     {
-        ChengeState(State.Run);
+        ChengeState(State.InGame);
     }
 
     /// <summary>

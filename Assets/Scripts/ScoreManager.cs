@@ -23,6 +23,9 @@ public class ScoreManager : MonoBehaviour
     /// <param name="score">加算スコア</param>
     public void AddScore(int score)
     {
+        // ゲーム中じゃ無ければスコアを加算しない
+        if (GameManager.Instance.GetCurrentGameState != GameManager.GameState.InGame) return;
+
         var after = _Score + score;
         _Score = after;
 
