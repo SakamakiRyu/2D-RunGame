@@ -44,8 +44,16 @@ public class PlayerBehaviour : MonoBehaviour
     #region Unity Function
     private void Awake()
     {
-        GameManager.Instance.GameStart += OnGameStart;
-        GameManager.Instance.GameEnd += OnGameEnd;
+        var gm = GameObject.FindObjectOfType<GameManager>();
+        if (gm)
+        {
+            GameManager.Instance.GameStart += OnGameStart;
+            GameManager.Instance.GameEnd += OnGameEnd;
+        }
+        else
+        {
+            ChengeState(State.InGame);
+        }
     }
 
     private void Update()

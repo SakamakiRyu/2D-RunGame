@@ -3,13 +3,13 @@
 /// </summary>
 public class NeedleBallBehaviour : ItemBase
 {
-    protected override void OnHit()
+    protected override void OnHitPlayer()
     {
         GameManager.Instance.GameEnd?.Invoke();
     }
 
-    protected override void OnDestroy()
+    protected override void OnHitDestroyPoint()
     {
-
+        ItemControl.Instance.OnDestroyedItem(this);
     }
 }

@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// ínñ ÇÃêßå‰ÉNÉâÉX
+/// </summary>
 public class GroundBehaviour : MonoBehaviour
 {
     [SerializeField]
@@ -26,7 +29,7 @@ public class GroundBehaviour : MonoBehaviour
         if (!_Player) return;
 
         var afterPos = this.transform.position;
-        afterPos.x = _Player.transform.position.x;
+        afterPos.x = _Player.transform.position.x + 4.0f;
 
         this.transform.position = afterPos;
     }
