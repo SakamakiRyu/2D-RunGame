@@ -42,7 +42,7 @@ public class PlayerBehaviour : MonoBehaviour
     #endregion
 
     #region Unity Function
-    private void Awake()
+    private void Start()
     {
         var gm = GameObject.FindObjectOfType<GameManager>();
         if (gm)
@@ -101,10 +101,11 @@ public class PlayerBehaviour : MonoBehaviour
                 break;
 
             case State.InGame:
-                Move();
-                Jump();
-                break;
-
+                {
+                    Move();
+                    Jump();
+                    break;
+                }
             case State.Death:
                 break;
         }
@@ -128,6 +129,8 @@ public class PlayerBehaviour : MonoBehaviour
     private void Jump()
     {
         if (!_Rigidbody2D) return;
+
+        // ínñ Ç∆ê⁄ínÇµÇƒÇ¢Ç»ÇØÇÍÇŒâΩÇ‡ÇµÇ»Ç¢ÅB
         if (!IsGrounded()) return;
 
         if (Input.GetButtonDown("Jump"))

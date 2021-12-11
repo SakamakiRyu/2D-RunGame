@@ -2,10 +2,11 @@ using UnityEngine;
 
 /// <summary>
 /// アイテムの配置を操作するクラス
+/// このオブジェクトは
 /// </summary>
 public class ItemControl : MonoBehaviour
 {
-    public static ItemControl Instance = null;
+    public static ItemControl Instance { get; private set; } = null;
 
     [SerializeField]
     private Transform[] _SpawnPoints;

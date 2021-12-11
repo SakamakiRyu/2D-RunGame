@@ -188,7 +188,7 @@ public class GameManager : Singleton<GameManager>
     /// </summary>
     private void Reset()
     {
-        _Timer = _TimeToCountDown;
+        _Timer = _TimeToCountDown + 1f;
         _IsInGame = false;
     }
 }

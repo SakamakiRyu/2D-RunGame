@@ -13,6 +13,11 @@ public abstract class ItemBase : MonoBehaviour
     [SerializeField]
     protected SpriteRenderer _Sprite;
 
+    protected virtual void Start()
+    {
+        
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Finish"))
